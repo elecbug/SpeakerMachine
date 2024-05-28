@@ -103,7 +103,7 @@ namespace SpeakerS
                             Console.WriteLine(find.Name);
                             Console.WriteLine(find.Description);
 
-                            Requests.Remove(Requests.Find(x => x.Name == find.Name && x.Title == find.Title)!);
+                            Requests.Remove(Requests.Find(x => x.Name == find.Name && x.DateTime == find.DateTime)!);
 
                             foreach (Request request in Requests)
                             {

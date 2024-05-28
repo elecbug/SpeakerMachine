@@ -60,6 +60,7 @@ namespace SpeakerMachine
             // 
             TitleTextBox.Dock = DockStyle.Fill;
             TitleTextBox.Location = new Point(3, 3);
+            TitleTextBox.Multiline = false;
             TitleTextBox.Name = "TitleTextBox";
             TitleTextBox.Size = new Size(385, 34);
             TitleTextBox.TabIndex = 0;
@@ -74,12 +75,12 @@ namespace SpeakerMachine
             NameTextBox.TabIndex = 1;
             NameTextBox.Text = "";
             // 
-            // DescriptTextBox
+            // DescriptionTextBox
             // 
             tableLayoutPanel1.SetColumnSpan(DescriptionTextBox, 2);
             DescriptionTextBox.Dock = DockStyle.Fill;
             DescriptionTextBox.Location = new Point(3, 43);
-            DescriptionTextBox.Name = "DescriptTextBox";
+            DescriptionTextBox.Name = "DescriptionTextBox";
             DescriptionTextBox.Size = new Size(503, 364);
             DescriptionTextBox.TabIndex = 2;
             DescriptionTextBox.Text = "";
@@ -93,7 +94,7 @@ namespace SpeakerMachine
             SubmitButton.TabIndex = 3;
             SubmitButton.Text = "Submit";
             SubmitButton.UseVisualStyleBackColor = true;
-            SubmitButton.Click += this.SubmitButton_Click;
+            SubmitButton.Click += SubmitButton_Click;
             // 
             // MainForm
             // 

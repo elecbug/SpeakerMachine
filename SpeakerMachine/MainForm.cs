@@ -38,6 +38,9 @@ namespace SpeakerMachine
                 stream.Read(bytes);
 
                 MessageBox.Show(Encoding.UTF8.GetString(bytes));
+
+                TitleTextBox.Text = "";
+                DescriptionTextBox.Text = "";
             }
         }
     }
