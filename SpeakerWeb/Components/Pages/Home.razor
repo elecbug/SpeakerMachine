@@ -1,0 +1,28 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Request for presentation topic</PageTitle>
+
+<div class="centering">
+    <h1>Request for presentation topic</h1>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" @bind="Title" />
+        <label>Title</label>
+    </div>
+    
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" @bind="Name"/>
+        <label>Name</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" @bind="Description"/>
+        <label>Description</label>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary" @onclick="SubmitButtonClick">Submit!</button>
+    </div>
+</div>
+
