@@ -50,7 +50,10 @@ namespace SpeakerS
 
                     if (context.Request.RawUrl != null)
                     {
-                        string url = Uri.UnescapeDataString(context.Request.RawUrl).TrimStart('/');
+                        string url = Uri.UnescapeDataString(context.Request.RawUrl)
+                            .TrimStart('/')
+                            .ReplaceUnicode();
+
                         Console.WriteLine("GET: " + url);
 
                         Request? request = JsonSerializer.Deserialize<Request>(url);
@@ -97,13 +100,21 @@ namespace SpeakerS
 
                             Console.WriteLine(JsonSerializer.Serialize(requests));
 
-                            Request find = requests[new Random().Next(requests.Count)];
+                            try
+                            {
+                                Request find = requests[new Random().Next(requests.Count)];
 
-                            Console.WriteLine(find.Title);
-                            Console.WriteLine(find.Name);
-                            Console.WriteLine(find.Description);
+                                Console.WriteLine("Title: " + find.Title);
+                                Console.WriteLine("Author: " + find.Name);
+                                Console.WriteLine("Description: " + find.Description);
 
-                            Requests.Remove(Requests.Find(x => x.Name == find.Name && x.DateTime == find.DateTime)!);
+                                Requests.Remove(Requests.Find(x => x.Name == find.Name && x.DateTime == find.DateTime)!);
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Requests is empty");
+                                break;
+                            }
 
                             foreach (Request request in Requests)
                             {
@@ -119,6 +130,35 @@ namespace SpeakerS
                         break;
                 }
             }
+        }
+    }
+
+    public static class StringExtension
+    {
+        public static string ReplaceUnicode(this string oldString)
+        {
+            char[] result = oldString.ToCharArray();
+
+            for (int i = 0; i + 6 < oldString.Length; i++)
+            {
+                if (oldString[i] == '/' && oldString[i + 1] == 'u')
+                {
+                    if (IsHex(oldString[i + 2]) &&
+                        IsHex(oldString[i + 3]) &&
+                        IsHex(oldString[i + 4]) &&
+                        IsHex(oldString[i + 5]))
+                    {
+                        result[i] = '\\';
+                    }
+                }
+            }
+
+            return new string(result);
+        }
+
+        private static bool IsHex(char c)
+        {
+            return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
         }
     }
 }
