@@ -1,4 +1,4 @@
-use std::{error::Error, fmt::format};
+use std::error::Error;
 
 use axum::{http::{header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}, HeaderValue, Method}, response::{Html, IntoResponse}, routing, Router};
 use chrono::Local;
