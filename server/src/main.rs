@@ -7,7 +7,7 @@ use tower_http::cors::CorsLayer;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let ip = "210.125.31.240:80";
+    let ip = "localhost:80";
 
     let cors = CorsLayer::new()
         .allow_origin(ip.parse::<HeaderValue>()?)
