@@ -21,7 +21,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
         axum::serve(listener, app).await.unwrap();
     });
 
-    Ok(())
+    loop {
+
+    }
 }
 
 fn create_router() -> Router {
