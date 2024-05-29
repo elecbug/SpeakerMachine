@@ -1,6 +1,7 @@
-use std::error::Error;
+use std::{error::Error, fmt::format};
 
-use axum::{http::{header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}, HeaderValue, Method}, response::{Html, IntoResponse}, routing, Json, Router};
+use axum::{http::{header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}, HeaderValue, Method}, response::{Html, IntoResponse}, routing, Router};
+use chrono::Local;
 use tower_http::cors::CorsLayer;
 
 
@@ -32,8 +33,9 @@ fn create_router() -> Router {
 }
 
 async fn health_handler() -> impl IntoResponse {
-    const MESSAGE: &str = "Alive The Channel";
     println!("CHECK-HEALTH");
 
-    Html::<&str>(MESSAGE)
+    let html = format!(include_str!("static/alive.html"), Local::now().to_string());
+
+    Html::<String>(html)
 }
