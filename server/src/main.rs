@@ -10,7 +10,7 @@ use structs::{RoundSubmit, SubmitArgs, SubmitWithTime};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let ip = "localhost:8080";
+    let ip = "localhost:80";
 
     let cors = CorsLayer::new()
         .allow_origin(ip.parse::<HeaderValue>()?)
@@ -33,7 +33,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         stdout().flush()?;
         stdin().read_line(&mut s)?;
 
-        let input = s.to_lowercase().replace("\r\n", "");
+        let input = s.to_lowercase().replace("\r", "").replace("\n", "");
         let input = input.as_str();
 
         match input {
