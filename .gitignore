@@ -1,1 +1,5 @@
+# Complied binary files directory
 target/
+
+# Service data directory
+submits/
