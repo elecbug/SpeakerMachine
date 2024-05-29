@@ -1,20 +1,20 @@
 use serde::{Deserialize, Serialize};
 
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct SubmitArgs {
     pub title: String,
     pub name: String,
     pub description: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct RoundSubmit {
     pub submit: SubmitArgs,
     pub rr: i32,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct SubmitWithTime {
     pub title: String,
     pub name: String,
