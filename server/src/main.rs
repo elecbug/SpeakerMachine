@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use axum::{http::{header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}, HeaderValue, Method}, response::IntoResponse, routing, Json, Router};
+use axum::{http::{header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}, HeaderValue, Method}, response::{Html, IntoResponse}, routing, Json, Router};
 use tower_http::cors::CorsLayer;
 
 
@@ -35,10 +35,5 @@ async fn health_handler() -> impl IntoResponse {
     const MESSAGE: &str = "Alive The Channel";
     println!("CHECK-HEALTH");
 
-    let json_response = serde_json::json!({
-        "status": "success",
-        "message": MESSAGE
-    });
-
-    Json(json_response)
+    Html::<&str>(MESSAGE)
 }
