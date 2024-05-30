@@ -118,6 +118,7 @@ fn create_router() -> Router {
         .route("/api/success/:args", routing::get(success_handler))
         .route("/api/cancel/:args", routing::get(cancel_handler))
         .route("/api/list", routing::get(list_handler))
+        .route("/api/topic", routing::get(topic_handler))
         .fallback(handler_404)
 }
 
@@ -135,6 +136,13 @@ async fn health_handler() -> impl IntoResponse {
     let html = format!(
         include_str!("./static/alive.html"),
         Local::now().to_string());
+
+    Html::<String>(html)
+}
+
+async fn topic_handler() -> impl IntoResponse {
+    let html = format!(
+        include_str!("./static/topic.html"));
 
     Html::<String>(html)
 }
