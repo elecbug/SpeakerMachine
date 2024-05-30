@@ -52,6 +52,10 @@ fn get_one_submit() -> Result<(), Box<dyn Error>>{
     let pathes = fs::read_dir("./submits/")?;
     let mut v = vec![];
     
+    if path::Path::new("./submits/topic.rqj").exists() == true {
+        fs::remove_file("./submits/topic.rqj")?;
+    }
+    
     for path in pathes {
         for p in fs::read_dir(path?.path().to_str().unwrap())? {
             let str = p?.path();
@@ -88,21 +92,26 @@ fn get_one_submit() -> Result<(), Box<dyn Error>>{
             let pathes = fs::read_dir("./submits/")?;
 
             for path in pathes {
-                for p in fs::read_dir(path?.path().to_str().unwrap())? {
-                    let str = p?.path();
-                    let str = String::from(str.to_str().unwrap());
-
-                    let mut file = File::open(&str)?;
-                    let mut s = String::new();
-                    
-                    file.read_to_string(&mut s)?;
-                    
-                    let mut submit = serde_json::from_str::<RoundSubmit>(&s)?;
-                    submit.rr += 1;
-                    
-                    let mut file = File::create(&str)?;
-                    file.write_all(serde_json::to_string(&submit)?.as_bytes())?;
-                }
+                match fs::read_dir(path?.path().to_str().unwrap()) {
+                    Ok(o) => {
+                        for p in o {
+                            let str = p?.path();
+                            let str = String::from(str.to_str().unwrap());
+        
+                            let mut file = File::open(&str)?;
+                            let mut s = String::new();
+                            
+                            file.read_to_string(&mut s)?;
+                            
+                            let mut submit = serde_json::from_str::<RoundSubmit>(&s)?;
+                            submit.rr += 1;
+                            
+                            let mut file = File::create(&str)?;
+                            file.write_all(serde_json::to_string(&submit)?.as_bytes())?;
+                        }
+                    },
+                    Err(_) => continue,
+                };
             }
         },
         None => println!("Submit list is empty"),
@@ -155,8 +164,8 @@ async fn topic_handler() -> impl IntoResponse {
             let html = format!(
                 include_str!("./static/topic.html"),
                     format!("<h1 {}>{}</h1><h2 {}>{}</h2><h4 {}>{}</h4>",
-                        style, r.submit.title, style, r.submit.name,
-                        style, r.submit.description));
+                        style, r.submit.title, style, r.submit.description,
+                        style, r.submit.name));
 
             Html::<String>(html)
         },
@@ -195,20 +204,25 @@ fn get_table() -> Result<String, Box<dyn Error>> {
         let path = path?;
         let date = format!("{}", &path.file_name().to_str().unwrap());
 
-        for p in fs::read_dir(&path.path().to_str().unwrap())? {
-            let str = p?.path();
-            let str = String::from(str.to_str().unwrap());
-            
-            let mut file = File::open(&str)?;
-            let mut s = String::new();
-            
-            file.read_to_string(&mut s)?;
-            
-            let submit = serde_json::from_str::<RoundSubmit>(&s)?;
-
-            result += format!("<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>",
-                submit.submit.title, submit.submit.name, &date, submit.rr).as_str();
-        }
+        match fs::read_dir(&path.path().to_str().unwrap()) {
+            Ok(o) => {
+                for p in o {
+                    let str = p?.path();
+                    let str = String::from(str.to_str().unwrap());
+                    
+                    let mut file = File::open(&str)?;
+                    let mut s = String::new();
+                    
+                    file.read_to_string(&mut s)?;
+                    
+                    let submit = serde_json::from_str::<RoundSubmit>(&s)?;
+        
+                    result += format!("<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>",
+                        submit.submit.title, submit.submit.name, &date, submit.rr).as_str();
+                }
+            },
+            Err(_) => continue,
+        };
     }
 
     Ok(result)
