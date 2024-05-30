@@ -241,8 +241,7 @@ async fn cancel_handler(Form(args): Form<SubmitWithTime>)
     println!("# remove\nTitle: {}\nName: {}\nDescription: {}",
         args.title, args.name, args.description);
 
-    let html = format!(include_str!("./static/cancel.html"),
-        args.title, args.name, args.description);
+    let html = format!(include_str!("./static/cancel.html"));
 
     if path::Path::new("./submits/").exists() == false {
         match fs::create_dir(path::Path::new("./submits/")) {
