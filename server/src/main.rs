@@ -10,7 +10,7 @@ use structs::{RoundSubmit, SubmitArgs, SubmitWithTime};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let ip = "localhost:80";
+    let ip = "0.0.0.0:80";
 
     let cors = CorsLayer::new()
         .allow_origin(ip.parse::<HeaderValue>()?)
@@ -112,10 +112,12 @@ fn get_one_submit() -> Result<(), Box<dyn Error>>{
 
 fn create_router() -> Router {
     Router::new()
+        .route("/api", routing::get(main_handler))
         .route("/api/health", routing::get(health_handler))
-        .route("/api/submit", routing::get(submit_screen_handler))
-        .route("/api/success/:args", routing::get(submit_handler))
-        .route("/api/cancel/:args", routing::get(submit_cancel_handler))
+        .route("/api/submit", routing::get(submit_handler))
+        .route("/api/success/:args", routing::get(success_handler))
+        .route("/api/cancel/:args", routing::get(cancel_handler))
+        .route("/api/list", routing::get(list_handler))
 }
 
 fn error_html() -> Html<String> {
@@ -132,15 +134,60 @@ async fn health_handler() -> impl IntoResponse {
     Html::<String>(html)
 }
 
-async fn submit_screen_handler() -> impl IntoResponse {
+async fn main_handler() -> impl IntoResponse {
+    let html = format!(
+        include_str!("./static/index.html"));
+
+    Html::<String>(html)
+}
+
+async fn list_handler() -> impl IntoResponse {
+    let html = format!(
+        include_str!("./static/list.html"),
+            match get_table() {
+                Ok(o) => o,
+                Err(_) => return error_html(),
+            });
+
+    Html::<String>(html)
+}
+
+fn get_table() -> Result<String, Box<dyn Error>> {
+    let pathes = fs::read_dir("./submits/")?;
+    let mut result = String::new();
+    
+    for path in pathes {
+        let path = path?;
+        let date = format!("{}", &path.file_name().to_str().unwrap());
+
+        for p in fs::read_dir(&path.path().to_str().unwrap())? {
+            let str = p?.path();
+            let str = String::from(str.to_str().unwrap());
+            
+            let mut file = File::open(&str)?;
+            let mut s = String::new();
+            
+            file.read_to_string(&mut s)?;
+            
+            let submit = serde_json::from_str::<RoundSubmit>(&s)?;
+
+            result += format!("<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>",
+                submit.submit.title, submit.submit.name, &date, submit.rr).as_str();
+        }
+    }
+
+    Ok(result)
+}
+
+async fn submit_handler() -> impl IntoResponse {
     let html = format!(include_str!("./static/submit.html"));
 
     Html::<String>(html)
 }
 
-async fn submit_handler(Form(args): Form<SubmitArgs>)
+async fn success_handler(Form(args): Form<SubmitArgs>)
     -> impl IntoResponse {
-    println!("#Add\nTitle: {}\nName: {}\nDescription: {}",
+    println!("# Add\nTitle: {}\nName: {}\nDescription: {}",
         args.title, args.name, args.description);
 
     let date: String = Local::now().format("%Y%m%d").to_string();
@@ -189,9 +236,9 @@ async fn submit_handler(Form(args): Form<SubmitArgs>)
     Html::<String>(html)
 }
 
-async fn submit_cancel_handler(Form(args): Form<SubmitWithTime>)
+async fn cancel_handler(Form(args): Form<SubmitWithTime>)
     -> impl IntoResponse {
-    println!("#remove\nTitle: {}\nName: {}\nDescription: {}",
+    println!("# remove\nTitle: {}\nName: {}\nDescription: {}",
         args.title, args.name, args.description);
 
     let html = format!(include_str!("./static/cancel.html"),
