@@ -1,6 +1,6 @@
 use std::{error::Error, fs::{self, File}, io::{stdin, stdout, Read, Write}, path};
 
-use axum::{http::{header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}, HeaderValue, Method}, response::{Html, IntoResponse}, routing, Form, Router};
+use axum::{http::{header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}, HeaderValue, Method, StatusCode}, response::{Html, IntoResponse}, routing, Form, Router};
 use chrono::Local;
 use rand::seq::SliceRandom;
 use tower_http::cors::CorsLayer;
@@ -118,10 +118,15 @@ fn create_router() -> Router {
         .route("/api/success/:args", routing::get(success_handler))
         .route("/api/cancel/:args", routing::get(cancel_handler))
         .route("/api/list", routing::get(list_handler))
+        .fallback(handler_404)
 }
 
 fn error_html() -> Html<String> {
     Html::<String>(include_str!("./static/error.html").to_string())
+}
+
+async fn handler_404() -> impl IntoResponse {
+    (StatusCode::NOT_FOUND, Html::<String>(include_str!("./static/404.html").to_string()))
 }
 
 async fn health_handler() -> impl IntoResponse {
