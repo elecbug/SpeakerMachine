@@ -82,7 +82,8 @@ fn get_one_submit() -> Result<(), Box<dyn Error>>{
             println!("Description: {}", submit.submit.description);
             println!("RoundTime: {}", submit.rr);
 
-            fs::remove_file(file)?;
+            fs::copy(&file, "./submits/topic.rqj")?;
+            fs::remove_file(&file)?;
 
             let pathes = fs::read_dir("./submits/")?;
 
@@ -141,10 +142,31 @@ async fn health_handler() -> impl IntoResponse {
 }
 
 async fn topic_handler() -> impl IntoResponse {
-    let html = format!(
-        include_str!("./static/topic.html"));
+    let file = File::open("./submits/topic.rqj");
+    match file {
+        Ok(mut o) => {
+            let mut buf = String::new();
 
-    Html::<String>(html)
+            o.read_to_string(&mut buf).unwrap();
+            let r = serde_json::from_str::<RoundSubmit>(&buf).unwrap();
+
+            let style = "style=\"color: white;\"";
+
+            let html = format!(
+                include_str!("./static/topic.html"),
+                    format!("<h1 {}>{}</h1><h2 {}>{}</h2><h4 {}>{}</h4>",
+                        style, r.submit.title, style, r.submit.name,
+                        style, r.submit.description));
+
+            Html::<String>(html)
+        },
+        Err(_) => {
+            let html = format!(
+                include_str!("./static/topic.html"), "-");
+
+            Html::<String>(html)
+        },
+    }
 }
 
 async fn main_handler() -> impl IntoResponse {
