@@ -6,54 +6,69 @@
     <title>Union Speaker</title>
 </head>
 <body style="   margin: 0%;
-                background-color: rgb(1, 1, 40);">
-    <div style="text-align: center;
-                color: white;
                 background-color: rgb(1, 1, 40);
-                padding: 1%;
-                margin: 5%;">
-        <h1>
-            Topic List
-        </h1>
-    </div>
+                padding: 0%">
+    <header style=" color: white;
+                    background-color: rgb(1, 1, 20);
+                    padding: 5px;">
+        <h1 style=" padding: 5px;
+                    margin: 5px;">Speaker</h1>
+        <h3></h3>
+        <a href="/api"
+            style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Home</a>
+        <a href="/api/submit"
+            style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Submit Topic</a>
+        <a href="/api/list"
+            style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Topic List</a>
+    </header>
+    
+    <h1 style=" margin: 5%;
+                text-align: center;">
+        제출된 주제 목록
+    </h1>
     <div style="margin: 5%;">
-        <table  style=" text-align: center;
+        <table style="  text-align: center;
                         color: white;
                         background-color: rgb(1, 1, 40);
                         width: 100%;">
             <tr>
                 <th>
-                    Title
+                    제목
                 </th>
                 <th>
-                    Author
+                    작성자
                 </th>
                 <th>
-                    Datetime
+                    시각
                 </th>
                 <th>
-                    Round
+                    대기 우선 순위
                 </th>
             </tr>
             {}
         </table>
-
-        <div style="text-align: center;
-                    margin: 3%;">
-            <a href="/api">
-                Go to main?
-            </a>
-        </div>
     </div>
-    <div style="text-align: center;
-                color: white;
-                background-color: rgb(1, 1, 40);
-                padding: 1%;
-                margin: 5%;">
+    <footer style=" text-align: center;
+                    color: white;
+                    background-color: rgb(1, 1, 20);
+                    position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    padding: 5px;">
         <label style="  font-style: italic;
                         font-weight: 1000;">
             Thanks for using service!
         </label>
-    </div>
+    </footer>
 </body>
 </html>

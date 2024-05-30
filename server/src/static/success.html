@@ -6,20 +6,38 @@
     <title>Union Speaker</title>
 </head>
 <body style="   margin: 0%;
-                background-color: rgb(1, 1, 40);">
-    <div style="text-align: center;
-                color: white;
                 background-color: rgb(1, 1, 40);
-                padding: 1%;
-                margin: 5%;">
-        <h1>
-            Success to Submit Topic
-        </h1>
-    </div>
+                padding: 0%">
+    <header style=" color: white;
+                    background-color: rgb(1, 1, 20);
+                    padding: 5px;">
+        <h1 style=" padding: 5px;
+                    margin: 5px;">Speaker</h1>
+        <h3></h3>
+        <a href="/api"
+        style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Home</a>
+        <a href="/api/submit"
+        style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Submit Topic</a>
+        <a href="/api/list"
+        style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Topic List</a>
+    </header>
+    <h1 style=" margin: 5%;
+                text-align: center;">
+        주제 제출 성공
+    </h1>
     <div style="margin: 5%;">
         <div style="margin: 3%">
             <h3 for="text" style="color: white;">
-                Title
+                제목
             </h3>
             <label for="text" style="color: white;">{}</label>
             <br>
@@ -27,7 +45,7 @@
 
         <div style="margin: 3%;">
             <h3 for="text" style="color: white;">
-                Name
+                작성자
             </h3>
             <label for="text" style="color: white;">{}</label>
             <br>
@@ -35,7 +53,7 @@
 
         <div style="margin: 3%;">
             <h3 for="text" style="color: white;">
-                Description
+                설명
             </h3>
             <label for="text" style="color: white;">{}</label>
             <br>
@@ -50,26 +68,22 @@
         <div style="text-align: center;
                     margin: 3%;">
             <a href="/api/cancel/SubmitArgs?title={}&name={}&description={}&date={}&time={}">
-                Do you want to cancel your submit?
-            </a>
-        </div>
-
-        <div style="text-align: center;
-                    margin: 3%;">
-            <a href="/api">
-                Go to main?
+                제출을 취소하고 싶으신가요?
             </a>
         </div>
     </div>
-    <div style="text-align: center;
-                color: white;
-                background-color: rgb(1, 1, 40);
-                padding: 1%;
-                margin: 5%;">
+    <footer style=" text-align: center;
+                    color: white;
+                    background-color: rgb(1, 1, 20);
+                    position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    padding: 5px;">
         <label style="  font-style: italic;
                         font-weight: 1000;">
             Thanks for using service!
         </label>
-    </div>
+    </footer>
 </body>
 </html>

@@ -6,20 +6,38 @@
     <title>Union Speaker</title>
 </head>
 <body style="   margin: 0%;
-                background-color: rgb(1, 1, 40);">
-    <div style="text-align: center;
-                color: white;
                 background-color: rgb(1, 1, 40);
-                padding: 1%;
-                margin: 5%;">
-        <h1>
-            Speak Topic
-        </h1>
-    </div>
+                padding: 0%">
+    <header style=" color: white;
+                    background-color: rgb(1, 1, 20);
+                    padding: 5px;">
+        <h1 style=" padding: 5px;
+                    margin: 5px;">Speaker</h1>
+        <h3></h3>
+        <a href="/api"
+            style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Home</a>
+        <a href="/api/submit"
+            style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Submit Topic</a>
+        <a href="/api/list"
+            style=" background-color: black;
+                    margin: 5px;
+                    padding: 5px;
+                    border-style: dashed;">Topic List</a>
+    </header>
+    <h1 style=" margin: 5%;
+                text-align: center;">
+        주제 제출
+    </h1>
     <form style="margin: 5%;" action="success/SubmitArgs">
         <div style="margin: 3%">
             <label for="text" style="color: white;">
-                Title
+                제목
             </label>
             <br>
             <input name="title" id="title" style="width: 100%;"></input>
@@ -28,7 +46,7 @@
 
         <div style="margin: 3%;">
             <label for="text" style="color: white;">
-                Name
+                작성자
             </label>
             <br>
             <input name="name" id="name" style="width: 100%;"></input>
@@ -37,7 +55,7 @@
 
         <div style="margin: 3%;">
             <label for="text" style="color: white;">
-                Description
+                설명
             </label>
             <br>
             <input name="description" id="description" style="width: 100%;"></input>
@@ -51,26 +69,22 @@
                                         margin-bottom: 3%;
                                         background-color: black;
                                         color: white;">
-                Submit!
+                제출
             </button>
         </div>
-        
-        <div style="text-align: center;
-                    margin: 3%;">
-            <a href="/api">
-                Go to main?
-            </a>
-        </div>
     </form>
-    <div style="text-align: center;
-                color: white;
-                background-color: rgb(1, 1, 40);
-                padding: 1%;
-                margin: 5%;">
-        <label style="font-style: italic;
+    <footer style=" text-align: center;
+                    color: white;
+                    background-color: rgb(1, 1, 20);
+                    position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    padding: 5px;">
+        <label style="  font-style: italic;
                         font-weight: 1000;">
             Thanks for using service!
         </label>
-    </div>
+    </footer>
 </body>
 </html>
